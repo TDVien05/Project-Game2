@@ -8,7 +8,8 @@ namespace Test
     {
         static void Main(string[] args)
         {
-
+            Output output = new Output();
+            output.Log();
         }
 
     }
