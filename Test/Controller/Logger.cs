@@ -8,6 +8,7 @@ namespace Test.Controller
     internal class Logger
     {
        private User user = new User();
+       private Output output = new Output();
         public Logger() { }
         public void Log(int choice)
         { 
@@ -30,13 +31,16 @@ namespace Test.Controller
                 string? userName = Console.ReadLine();
                 Console.Write("Enter your password : ");
                 string? pass = Console.ReadLine();
-                
+                if(userName != null && pass != null)
+                {
+                    ReadFromFile(userName, pass);
+                }
             }
         }
 
         public void WriteToFile()
         {
-            string filePath = @"D:\Final_project\Test\Test\Controllert";
+            string filePath = @"D:\Final_project\Test\Test\Controller\UserPasssword.txt";
             try
             {
                 // Sử dụng StreamWriter để ghi dữ liệu vào file
@@ -54,9 +58,9 @@ namespace Test.Controller
             }
         }
 
-        public void ReadFromFile()
+        public void ReadFromFile(string name, string pass)
         {
-            string filePath = @"D:\Final_project\Test\Test\Controllert";
+            string filePath = @"D:\Final_project\Test\Test\Controller\UserPasssword.txt";
             try
             {
 
@@ -69,7 +73,14 @@ namespace Test.Controller
 
                         while ((line = reader.ReadLine()) != null)
                         {
-                            Console.WriteLine(line);
+                            if(line == name)
+                            {
+                                string? line2 = reader.ReadLine();
+                                if(line2 != null && line2 == pass)
+                                {
+                                    output.Menu();
+                                }
+                            }
                         }
                     }
                 }

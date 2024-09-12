@@ -17,11 +17,9 @@ namespace Test.Model
             get { return userName; }
             set
             {
-                // Chuyển đổi thành chữ thường và phân tách thành các từ
                 TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
                 string? lowerUserName = textInfo.ToLower(value);
 
-                // Chuyển đổi ký tự đầu tiên của mỗi từ thành chữ hoa
                 string? normalizedUserName = textInfo.ToTitleCase(lowerUserName);
                 string result = string.Join(" ", normalizedUserName.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
                 userName = result;

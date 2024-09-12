@@ -4,7 +4,7 @@ using Test.View;
 
 namespace Test
 {
-    class Program
+    class Programl
     {
         static void Main(string[] args)
         {
