@@ -7,9 +7,9 @@ namespace Test.Controller
 {
     internal class Logger
     {
+        public Logger() { }
        private User user = new User();
        private Output output = new Output();
-        public Logger() { }
         public int Log(int choice)
         { 
             if(choice == 1)
@@ -34,9 +34,13 @@ namespace Test.Controller
                 string? pass = Console.ReadLine();
                 if(userName != null && pass != null)
                 {
-                    ReadFromFile(userName, pass);
+                    if ((ReadFromFile(userName, pass) == 1))
+                    {
+                        return 1;
+                    } else Console.WriteLine("Error with your user name or password");
+
                 }
-                return 1;
+                return 0;
             }
             return 0;
         }
@@ -79,10 +83,11 @@ namespace Test.Controller
                             if(line == name)
                             {
                                 string? line2 = reader.ReadLine();
-                                if(line2 != null && line2 == pass)
+                                if (line2 != null && line2 == pass)
                                 {
                                     return 1;
                                 }
+                                else return 0;
                             }
                         }
                     }
@@ -97,6 +102,17 @@ namespace Test.Controller
                 Console.WriteLine("Đã xảy ra lỗi: " + ex.Message);
             }
             return 0;
+        }
+
+        public void ChangePass()
+        {
+            Console.Write("Enter new password : ");
+            string? newPass = Console.ReadLine();
+            if (newPass != null)
+            {
+                user.Password = newPass;
+                Console.WriteLine(user.Password);
+            }
         }
 
     }

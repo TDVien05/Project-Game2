@@ -8,12 +8,21 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            Output output = new Output();
-            int x = output.Log();
+            int check = 1;
             do
             {
-                output.Menu();
-            } while (x == 1);
+                Output output = new Output();
+                int x = output.Log();
+                if (x == 1)
+                {
+                    Console.Clear();
+                    do
+                    {
+                        output.Menu();
+                    } while (x == 1);
+                    check = 0;
+                }
+            } while (check == 1);
         }
 
     }

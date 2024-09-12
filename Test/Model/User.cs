@@ -12,17 +12,20 @@ namespace Test.Model
         private string userName = string.Empty;
         private string password = string.Empty;
 
+        public User() { }
+
         public string UserName
         {
             get { return userName; }
             set
             {
-                TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
-                string? lowerUserName = textInfo.ToLower(value);
+                //TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+                //string? lowerUserName = textInfo.ToLower(value);
 
-                string? normalizedUserName = textInfo.ToTitleCase(lowerUserName);
-                string result = string.Join(" ", normalizedUserName.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
-                userName = result;
+                //string? normalizedUserName = textInfo.ToTitleCase(lowerUserName);
+                //string result = string.Join(" ", normalizedUserName.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+                userName = value;
+                userName.Trim();
             }
         }
 
