@@ -10,7 +10,7 @@ namespace Test.Controller
        private User user = new User();
        private Output output = new Output();
         public Logger() { }
-        public void Log(int choice)
+        public int Log(int choice)
         { 
             if(choice == 1)
             {
@@ -24,6 +24,7 @@ namespace Test.Controller
                     user.Password = pass;
                 }
                 WriteToFile();
+                return 1;
             } 
             else if(choice == 2) 
             {
@@ -35,7 +36,9 @@ namespace Test.Controller
                 {
                     ReadFromFile(userName, pass);
                 }
+                return 1;
             }
+            return 0;
         }
 
         public void WriteToFile()
@@ -58,7 +61,7 @@ namespace Test.Controller
             }
         }
 
-        public void ReadFromFile(string name, string pass)
+        public int ReadFromFile(string name, string pass)
         {
             string filePath = @"D:\Final_project\Test\Test\Controller\UserPasssword.txt";
             try
@@ -78,7 +81,7 @@ namespace Test.Controller
                                 string? line2 = reader.ReadLine();
                                 if(line2 != null && line2 == pass)
                                 {
-                                    output.Menu();
+                                    return 1;
                                 }
                             }
                         }
@@ -93,6 +96,7 @@ namespace Test.Controller
             {
                 Console.WriteLine("Đã xảy ra lỗi: " + ex.Message);
             }
+            return 0;
         }
 
     }

@@ -9,7 +9,11 @@ namespace Test
         static void Main(string[] args)
         {
             Output output = new Output();
-            output.Log();
+            int x = output.Log();
+            do
+            {
+                output.Menu();
+            } while (x == 1);
         }
 
     }

@@ -8,7 +8,7 @@ namespace Test.View
     internal class Output
     {
         public Output() { }
-        public void Log()
+        public int Log()
         {
             Logger logger = new Logger();
             Console.WriteLine("------------WELCOME------------");
@@ -18,11 +18,12 @@ namespace Test.View
             string? input = Console.ReadLine();    
             if (int.TryParse(input, out int choice))
             {
-                logger.Log(choice);
+                return logger.Log(choice);
             }
             else
             {
                 Console.WriteLine("Lựa chọn không hợp lệ, vui lòng nhập số.");
+                return 0;
             }
         }
 
@@ -37,6 +38,8 @@ namespace Test.View
             Console.WriteLine("6 : Search subject with ID");
             Console.WriteLine("7 : Filter student with ID subject");
             Console.WriteLine("8 : Show the list of student");
+            Console.Write("Enter your choice : ");
+            int choice = Console.Read();
         }
     }
 }
