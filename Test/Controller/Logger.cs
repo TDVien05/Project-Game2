@@ -2,12 +2,13 @@
 using Test.Model;
 using Test.View;
 using System.IO;
+using System.Xml.Linq;
 
 namespace Test.Controller
 {
     internal class Logger
     {
-        public Logger() { }
+       public Logger() { }
        private User user = new User();
        private Output output = new Output();
         public int Log(int choice)
@@ -22,9 +23,13 @@ namespace Test.Controller
                 {
                     user.UserName = userName;
                     user.Password = pass;
+                    if (user.UserName != null && user.Password != string.Empty)
+                    {
+                        WriteToFile();
+                        return 1;
+                    }
                 }
-                WriteToFile();
-                return 1;
+                return 0;
             } 
             else if(choice == 2) 
             {
@@ -108,10 +113,32 @@ namespace Test.Controller
         {
             Console.Write("Enter new password : ");
             string? newPass = Console.ReadLine();
-            if (newPass != null)
+            Console.WriteLine(user.Password);
+            string filePath = @"D:\Final_project\Test\Test\Controller\UserPasssword.txt";
+            if (File.Exists(filePath))
             {
-                user.Password = newPass;
-                Console.WriteLine(user.Password);
+                try
+                {
+                    string[] lines = File.ReadAllLines(filePath);
+
+                    for (int i = 0; i < lines.Length; i++)
+                    {
+                        if ((lines[i] == user.Password) && (newPass != null))
+                        {
+                            lines[i] = newPass;
+                            break;
+                        }
+                    }
+                    File.WriteAllLines(filePath, lines);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Đã xảy ra lỗi: " + ex.Message);
+                }
+            }
+            else
+            {
+                Console.WriteLine("File không tồn tại.");
             }
         }
 

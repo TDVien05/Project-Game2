@@ -29,6 +29,7 @@ namespace Test.View
 
         public void Menu()
         {
+            Logger logger = new Logger();
             Console.WriteLine("------------WELCOME------------");
             Console.WriteLine("1 : Add a student");
             Console.WriteLine("2 : Edit a student's information");
@@ -40,9 +41,8 @@ namespace Test.View
             Console.WriteLine("8 : Show the list of student");
             Console.WriteLine("9 : Change the password");
             Console.Write("Enter your choice : ");
-            int choice = Console.Read();
-            Logger logger = new Logger();
-            if(choice == 9)
+            string? choice = Console.ReadLine();
+            if(choice == "9")
             {
                 logger.ChangePass();
             }
