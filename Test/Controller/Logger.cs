@@ -25,7 +25,7 @@ namespace Test.Controller
                     user.Password = pass;
                     if (user.UserName != null && user.Password != string.Empty)
                     {
-                        WriteToFile();
+                        WriteToFile(user);
                         return 1;
                     }
                 }
@@ -52,7 +52,7 @@ namespace Test.Controller
             return 0;
         }
 
-        public void WriteToFile()
+        public void WriteToFile(User user)
         {
             string filePath = @"D:\Final_project\Test\Test\Controller\UserPasssword.txt";
             try
