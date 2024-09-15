@@ -8,7 +8,7 @@ namespace Test.View
     internal class Output
     {
         public Output() { }
-        public int Log()
+        public int SignUp_LogIn(User user)
         {
             Logger logger = new Logger();
             Console.WriteLine("------------WELCOME------------");
@@ -18,7 +18,7 @@ namespace Test.View
             string? input = Console.ReadLine();    
             if (int.TryParse(input, out int choice))
             {
-                return logger.Log(choice);
+                return logger.Log(choice, user);
             }
             else
             {
@@ -27,7 +27,7 @@ namespace Test.View
             }
         }
 
-        public void Menu()
+        public void Menu(User user)
         {
             Logger logger = new Logger();
             Console.WriteLine("------------WELCOME------------");
@@ -44,7 +44,11 @@ namespace Test.View
             string? choice = Console.ReadLine();
             if(choice == "9")
             {
-                logger.ChangePass();
+                logger.ChangePass(user);
+            }
+            else
+            {
+                 
             }
         }
     }

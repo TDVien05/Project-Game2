@@ -11,7 +11,7 @@ namespace Test.Controller
        public Logger() { }
        private User user = new User();
        private Output output = new Output();
-        public int Log(int choice)
+        public int Log(int choice, User user)
         { 
             if(choice == 1)
             {
@@ -40,7 +40,9 @@ namespace Test.Controller
                 if(userName != null && pass != null)
                 {
                     if ((ReadFromFile(userName, pass) == 1))
-                    {
+                    { 
+                        user.UserName = userName;
+                        user.Password= pass;
                         return 1;
                     } else Console.WriteLine("Error with your user name or password");
 
@@ -109,16 +111,16 @@ namespace Test.Controller
             return 0;
         }
 
-        public void ChangePass()
+        public void ChangePass(User user)
         {
             Console.Write("Enter new password : ");
             string? newPass = Console.ReadLine();
-            Console.WriteLine(user.Password);
             string filePath = @"D:\Final_project\Test\Test\Controller\UserPasssword.txt";
             if (File.Exists(filePath))
             {
                 try
                 {
+                    string check = string.Empty;
                     string[] lines = File.ReadAllLines(filePath);
 
                     for (int i = 0; i < lines.Length; i++)
@@ -130,6 +132,7 @@ namespace Test.Controller
                         }
                     }
                     File.WriteAllLines(filePath, lines);
+
                 }
                 catch (Exception ex)
                 {
