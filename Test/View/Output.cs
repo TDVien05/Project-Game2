@@ -15,7 +15,7 @@ namespace Test.View
             Console.WriteLine("1 : Sign up");
             Console.WriteLine("2 : Log in");
             Console.Write("Enter your choice : ");
-            string? input = Console.ReadLine();    
+            string? input = Console.ReadLine();
             if (int.TryParse(input, out int choice))
             {
                 return logger.Log(choice, user);
@@ -42,13 +42,14 @@ namespace Test.View
             Console.WriteLine("9 : Change the password");
             Console.Write("Enter your choice : ");
             string? choice = Console.ReadLine();
-            if(choice == "9")
+            if (choice == "9")
             {
                 logger.ChangePass(user);
             }
-            else
+            else if (choice == "4")
             {
-                 
+                SubjectHandler subList = new SubjectHandler();
+                subList.subjectList();
             }
         }
     }
