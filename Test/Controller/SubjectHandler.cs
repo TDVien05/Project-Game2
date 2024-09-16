@@ -72,7 +72,7 @@ namespace Test.Controller
         }
 
         // Method to get subject name by ID
-        public string GetSubjectNameById(string subjectId)
+        public static string GetSubjectNameById(string subjectId)
         {
             if (subjects.ContainsKey(subjectId))
             {
