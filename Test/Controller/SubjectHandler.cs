@@ -29,7 +29,14 @@ namespace Test.Controller
                 case "1":
                     Console.WriteLine("Hay nhap ma mon hoc: ");
                     string? id = Console.ReadLine();
-                    return id;
+                    if (id != null)
+                    {
+                        return id;
+                    }
+                    else
+                    {
+                        return "Ma mon hoc ko hop le";
+                    }
                 case "2":
                     return "Khong co mon hoc nao duoc chon";
                 default:
