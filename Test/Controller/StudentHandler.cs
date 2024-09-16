@@ -10,7 +10,7 @@ namespace Test.Model
         private List<Student> students = new List<Student>();
 
         // Constructor to initialize the student repository
-        public void StudentRepository()
+        public void StudentList()
         {
             // Seed some students for demo purposes
             students.Add(new Student("John Doe", "R123", 20, "Male", "01/01/2003", "123 Main St", new List<string> { "Math", "Science" }));

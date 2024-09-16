@@ -29,6 +29,8 @@ namespace Test.View
 
         public void Menu(User user)
         {
+            SubjectHandler subList = new SubjectHandler();
+            StudentHandler stu = new StudentHandler();
             Logger logger = new Logger();
             Console.WriteLine("------------WELCOME------------");
             Console.WriteLine("1 : Add a student");
@@ -41,15 +43,28 @@ namespace Test.View
             Console.WriteLine("8 : Show the list of student");
             Console.WriteLine("9 : Change the password");
             Console.Write("Enter your choice : ");
-            string? choice = Console.ReadLine();
-            if (choice == "9")
+
+            int choice = int.Parse(Console.ReadLine());
+            switch (choice)
             {
-                logger.ChangePass(user);
-            }
-            else if (choice == "4")
-            {
-                SubjectHandler subList = new SubjectHandler();
-                subList.subjectList();
+                case 1:
+                case 2:
+                case 3:
+                    string sub = subList.subjectList();
+                    subList.RegisterSubject(sub);
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    // stu.SearchStudentByRollNumber(Student.RollNumber);
+                    break;
+                case 7:
+                case 8:
+
+                case 9:
+                    logger.ChangePass(user);
+                    break;
+
             }
         }
     }
