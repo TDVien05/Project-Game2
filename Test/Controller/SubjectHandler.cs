@@ -6,45 +6,6 @@ namespace Test.Controller
 {
     internal class SubjectHandler
     {
-        //ham de xuat mon hoc
-        public String subjectList()
-        {
-            Console.WriteLine("------------Subject List------------");
-            Console.WriteLine("Ma : Toan hoc");
-            Console.WriteLine("Li : Van hoc");
-            Console.WriteLine("Py : Vat ly");
-            Console.WriteLine("Ce : Hoa hoc");
-            Console.WriteLine("Hi : Lich su");
-            Console.WriteLine("Ge : Dia ly");
-            Console.WriteLine("En : Ngoai ngu");
-            Console.WriteLine("Cs : Tin hoc");
-            Console.WriteLine("Bi : Sinh hoc");
-            //dk mon hay ko
-            Console.WriteLine("Ban co muon dang ky mon hoc?");
-            Console.WriteLine("1. Co");
-            Console.WriteLine("1. Khong");
-            string? choice = Console.ReadLine();
-            switch (choice)
-            {
-                case "1":
-                    Console.WriteLine("Hay nhap ma mon hoc: ");
-                    string? id = Console.ReadLine();
-                    if (id != null)
-                    {
-                        return id;
-                    }
-                    else
-                    {
-                        return "Ma mon hoc ko hop le";
-                    }
-                case "2":
-                    return "Khong co mon hoc nao duoc chon";
-                default:
-                    return "Invalid choice";
-
-            }
-        }
-
         //danh sach mon hoc
         private static Dictionary<string, string> subjects = new Dictionary<string, string>()
         {
@@ -60,28 +21,48 @@ namespace Test.Controller
         };
 
         // dang ky on hoc
-        public void RegisterSubject(string subjectId)
+        public void RegisterSubject()
         {
-            string subjectName = SubjectHandler.GetSubjectNameById(subjectId);
-            if (!string.IsNullOrEmpty(subjectName))
+            int choice = 0;
+            do
             {
-                if (!subjects.ContainsKey(subjectName))
+                Console.WriteLine("Ban co muon dang ky mon hoc?");
+                Console.WriteLine("1. Co");
+                Console.WriteLine("2. Khong");
+                choice = int.Parse(Console.ReadLine());
+                switch (choice)
                 {
-                    subjects.Add(subjectName, subjectId);
-                    Console.WriteLine($"{subjectName} da dang ky thanh cong.");
+                    case 1:
+                        Console.WriteLine("Hay nhap ma mon hoc: ");
+                        string? id = Console.ReadLine();
+                        string subjectName = SubjectHandler.GetSubjectNameById(id);
+                        if (!string.IsNullOrEmpty(subjectName))
+                        {
+                            if (!subjects.ContainsKey(subjectName))
+                            {
+                                subjects.Add(subjectName, id);
+                                Console.WriteLine($"{subjectName} da dang ky thanh cong.");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"{subjectName} da duoc dang ky, khong the dang ky lai.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid Subject ID.");
+                        }
+                        break;
+                    case 2:
+                        break;
+                    default:
+                        Console.WriteLine("Co loi xay ra với hanh dong duoc chon, hay nhap lai");
+                        break;
                 }
-                else
-                {
-                    Console.WriteLine($"{subjectName} da duoc dang ky, khong the dang ky lai.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Invalid Subject ID.");
-            }
+            } while (choice < 1 || choice > 2);
         }
         // Method to display available subjects
-        public static void DisplaySubjectList()
+        public void DisplaySubjectList()
         {
             Console.WriteLine("------------Subject List------------");
             foreach (var subject in subjects)
@@ -91,7 +72,7 @@ namespace Test.Controller
         }
 
         // Method to get subject name by ID
-        public static string GetSubjectNameById(string subjectId)
+        public string GetSubjectNameById(string subjectId)
         {
             if (subjects.ContainsKey(subjectId))
             {

@@ -50,15 +50,18 @@ namespace Test.View
                 case 1:
                 case 2:
                 case 3:
-                    string sub = subList.subjectList();
-                    subList.RegisterSubject(sub);
+                case 4:
+                    subList.DisplaySubjectList();
+                    subList.RegisterSubject();
                     break;
                 case 5:
-                    break;
                 case 6:
-                    // stu.SearchStudentByRollNumber(Student.RollNumber);
+                    Console.WriteLine("Nhap id mon hoc de tim kiem: ");
+                    string id = Console.ReadLine();
+                    SubjectHandler.GetSubjectNameById(id);
                     break;
                 case 7:
+                    break;
                 case 8:
 
                 case 9:
