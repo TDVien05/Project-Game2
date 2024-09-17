@@ -29,8 +29,8 @@ namespace Test.View
 
         public void Menu(User user)
         {
-            SubjectHandler subList = new SubjectHandler();
             StudentHandler stu = new StudentHandler();
+            SubjectHandler subList = new SubjectHandler(stu); // Pass the student handler to subject handler
             Logger logger = new Logger();
             Console.WriteLine("------------WELCOME------------");
             Console.WriteLine("1 : Add a student");
@@ -55,17 +55,20 @@ namespace Test.View
                     subList.RegisterSubject();
                     break;
                 case 5:
+                    string rollNum = stu.getRollNum();
+                    stu.SearchStudentByRollNumber(rollNum);
+                    break;
                 case 6:
-                    Console.WriteLine("Nhap id mon hoc de tim kiem: ");
-                    string id = Console.ReadLine();
-                    SubjectHandler.GetSubjectNameById(id);
+                    SubjectHandler.PrintSubjectById();
                     break;
                 case 7:
+                    Console.WriteLine("Enter Subject ID to filter and display students: ");
+                    string subjectId = Console.ReadLine();
+                    stu.FilterBySubjectId(subjectId);
                     break;
                 case 8:
                     stu.PrintStudentList();
                     break;
-
                 case 9:
                     logger.ChangePass(user);
                     break;

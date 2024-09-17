@@ -4,10 +4,11 @@ using System.IO;
 using System.Linq;
 using Test.Model;
 
-namespace Test.Controler
+namespace Test.Controller
 {
     internal class StudentHandler
     {
+        private const string filePath = @"D:\Final_project\Test\Test\Controller\Student_Information.txt";
         // List to store the students
         private List<Student> students = new List<Student>();
 
@@ -21,7 +22,7 @@ namespace Test.Controler
         // Method to read students from file
         private void ReadStudentsFromFile()
         {
-            string filePath = "students.txt";
+
             if (File.Exists(filePath))
             {
                 string[] lines = File.ReadAllLines(filePath);
@@ -42,10 +43,18 @@ namespace Test.Controler
         }
 
         // Method to search for a student by roll number
+        public string getRollNum()
+        {
+            Console.WriteLine("Hay Nhap MSSV");
+            string? rollNumber = Console.ReadLine();
+            return rollNumber;
+        }
+
         public Student? SearchStudentByRollNumber(string rollNumber)
         {
-            return students.FirstOrDefault(student => student.RollNumber == rollNumber);
+            return students.FirstOrDefault(student => student.RollNumber.Equals(rollNumber, StringComparison.OrdinalIgnoreCase));
         }
+
 
         // Method to add a new student to the repository
         public void AddStudent(Student student)
@@ -63,7 +72,6 @@ namespace Test.Controler
         // Method to write students to file
         private void WriteStudentsToFile()
         {
-            string filePath = "students.txt";
             using (StreamWriter writer = new StreamWriter(filePath))
             {
                 foreach (Student student in students)
@@ -95,5 +103,12 @@ namespace Test.Controler
                 Console.WriteLine();
             }
         }
+
+        public List<Student> FilterStudentsBySubjectId(string subjectId)
+        {
+            List<Student> filteredStudents = students.Where(student => student.Subject.Contains(subjectId)).ToList();
+            return filteredStudents;
+        }
+
     }
 }
