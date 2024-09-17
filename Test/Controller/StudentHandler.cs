@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Test.Model;
 
-namespace Test.Model
+namespace Test.Controler
 {
     internal class StudentHandler
     {
@@ -12,10 +14,31 @@ namespace Test.Model
         // Constructor to initialize the student repository
         public void StudentList()
         {
-            // Seed some students for demo purposes
-            students.Add(new Student("John Doe", "R123", 20, "Male", "01/01/2003", "123 Main St", new List<string> { "Math", "Science" }));
-            students.Add(new Student("Jane Smith", "R456", 21, "Female", "02/01/2002", "456 Oak St", new List<string> { "English", "History" }));
-            students.Add(new Student("Mike Johnson", "R789", 19, "Male", "03/01/2004", "789 Pine St", new List<string> { "Physics", "Chemistry" }));
+            // Read students from file
+            ReadStudentsFromFile();
+        }
+
+        // Method to read students from file
+        private void ReadStudentsFromFile()
+        {
+            string filePath = "students.txt";
+            if (File.Exists(filePath))
+            {
+                string[] lines = File.ReadAllLines(filePath);
+                for (int i = 0; i < lines.Length; i += 7)
+                {
+                    string name = lines[i].Split(':')[1].Trim();
+                    string rollNumber = lines[i + 1].Split(':')[1].Trim();
+                    int age = int.Parse(lines[i + 2].Split(':')[1].Trim());
+                    string sex = lines[i + 3].Split(':')[1].Trim();
+                    string dateOfBirth = lines[i + 4].Split(':')[1].Trim();
+                    string address = lines[i + 5].Split(':')[1].Trim();
+                    List<string> subjects = lines[i + 6].Split(':').Skip(1).Select(s => s.Trim()).ToList();
+
+                    Student student = new Student(name, rollNumber, age, sex, dateOfBirth, address, subjects);
+                    students.Add(student);
+                }
+            }
         }
 
         // Method to search for a student by roll number
@@ -28,12 +51,49 @@ namespace Test.Model
         public void AddStudent(Student student)
         {
             students.Add(student);
+            WriteStudentsToFile();
         }
 
         // Method to get all students
         public List<Student> GetAllStudents()
         {
             return students;
+        }
+
+        // Method to write students to file
+        private void WriteStudentsToFile()
+        {
+            string filePath = "students.txt";
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                foreach (Student student in students)
+                {
+                    writer.WriteLine($"Name: {student.Name}");
+                    writer.WriteLine($"Roll Number: {student.RollNumber}");
+                    writer.WriteLine($"Age: {student.Age}");
+                    writer.WriteLine($"Sex: {student.Sex}");
+                    writer.WriteLine($"Date of Birth: {student.DateOfBirth}");
+                    writer.WriteLine($"Address: {student.Address}");
+                    writer.WriteLine($"Subjects: {string.Join(", ", student.Subject)}");
+                    writer.WriteLine();
+                }
+            }
+        }
+
+        // Method to print student list
+        public void PrintStudentList()
+        {
+            foreach (Student student in students)
+            {
+                Console.WriteLine($"Name: {student.Name}");
+                Console.WriteLine($"Roll Number: {student.RollNumber}");
+                Console.WriteLine($"Age: {student.Age}");
+                Console.WriteLine($"Sex: {student.Sex}");
+                Console.WriteLine($"Date of Birth: {student.DateOfBirth}");
+                Console.WriteLine($"Address: {student.Address}");
+                Console.WriteLine($"Subjects: {string.Join(", ", student.Subject)}");
+                Console.WriteLine();
+            }
         }
     }
 }

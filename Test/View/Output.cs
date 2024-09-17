@@ -63,6 +63,8 @@ namespace Test.View
                 case 7:
                     break;
                 case 8:
+                    stu.PrintStudentList();
+                    break;
 
                 case 9:
                     logger.ChangePass(user);
