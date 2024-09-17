@@ -24,6 +24,15 @@ namespace Test.Model
             this.address = address;
             this.subject = subject;
         }
+        public Student(string name, string rollNumber, int age, string sex, string dateOfBirth, string address)
+        {
+            this.name = name;
+            this.rollNumber = rollNumber;
+            this.age = age;
+            this.sex = sex;
+            this.dateOfBirth = dateOfBirth;
+            this.address = address;
+        }
 
         public string Name
         {

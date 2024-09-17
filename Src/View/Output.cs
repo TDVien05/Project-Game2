@@ -29,7 +29,9 @@ namespace Test.View
 
         public void Menu(User user)
         {
+            Console.Clear();
             Logger logger = new Logger();
+            StudentController studentController = new StudentController();
             Console.WriteLine("------------WELCOME------------");
             Console.WriteLine("1 : Add a student");
             Console.WriteLine("2 : Edit a student's information");
@@ -41,14 +43,15 @@ namespace Test.View
             Console.WriteLine("8 : Show the list of student");
             Console.WriteLine("9 : Change the password");
             Console.Write("Enter your choice : ");
-            string? choice = Console.ReadLine();
-            if(choice == "9")
+            int choice = int.Parse(Console.ReadLine());
+            switch(choice)
             {
-                logger.ChangePass(user);
-            }
-            else
-            {
-                 
+                case 1:
+                    studentController.Add();
+                    break;
+                case 2:
+                    studentController.Add();
+                    break;
             }
         }
     }
