@@ -1,12 +1,12 @@
 ﻿using System;
-using Test.Model;
-using Test.View;
+using StudentManagement.Model;
+using StudentManagement.View;
 using System.IO;
 using System.Xml.Linq;
 using System.Text.Json;
 using System.Xml.Serialization;
 
-namespace Test.Controller
+namespace StudentManagement.Controller
 {
     internal class StudentController
     {

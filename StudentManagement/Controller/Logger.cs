@@ -1,10 +1,10 @@
 ﻿using System;
-using Test.Model;
-using Test.View;
+using StudentManagement.Model;
+using StudentManagement.View;
 using System.IO;
 using System.Xml.Linq;
 
-namespace Test.Controller
+namespace StudentManagement.Controller
 {
     internal class Logger
     {

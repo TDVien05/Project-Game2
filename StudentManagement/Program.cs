@@ -1,10 +1,10 @@
 ﻿using System;
-using Test.Model;
-using Test.View;
+using StudentManagement.Model;
+using StudentManagement.View;
 
-namespace Test
+namespace StudentManagement
 {
-    class Programl
+    class Program
     {
         static void Main(string[] args)
         {

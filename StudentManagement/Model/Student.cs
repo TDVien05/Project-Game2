@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Test.Model
+namespace StudentManagement.Model
 {
     internal class Student
     {

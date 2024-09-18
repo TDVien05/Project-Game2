@@ -1,9 +1,9 @@
 ﻿using System;
-using Test.Model;
-using Test.Controller;
+using StudentManagement.Model;
+using StudentManagement.Controller;
 
 
-namespace Test.View
+namespace StudentManagement.View
 {
     internal class Output
     {
