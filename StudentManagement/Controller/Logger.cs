@@ -54,7 +54,7 @@ namespace StudentManagement.Controller
 
         public void WriteToFile(User user)
         {
-            string filePath = @"D:\Final_project\Test\Test\Controller\UserPasssword.txt";
+            string filePath = @"D:\Final_project\Project-Game2\StudentManagement\Controller\UserPasssword.txt";
             try
             {
                 // Sử dụng StreamWriter để ghi dữ liệu vào file
@@ -74,7 +74,7 @@ namespace StudentManagement.Controller
 
         public int ReadFromFile(string name, string pass)
         {
-            string filePath = @"D:\Final_project\Test\Test\Controller\UserPasssword.txt";
+            string filePath = @"D:\Final_project\Project-Game2\StudentManagement\Controller\UserPasssword.txt";
             try
             {
 
@@ -115,7 +115,7 @@ namespace StudentManagement.Controller
         {
             Console.Write("Enter new password : ");
             string? newPass = Console.ReadLine();
-            string filePath = @"D:\Final_project\Test\Test\Controller\UserPasssword.txt";
+            string filePath = @"D:\Final_project\Project-Game2\StudentManagement\Controller\UserPasssword.txt";
             if (File.Exists(filePath))
             {
                 try

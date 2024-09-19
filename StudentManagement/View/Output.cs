@@ -52,6 +52,9 @@ namespace StudentManagement.View
                 case 2:
                     studentController.Add();
                     break;
+                case 9:
+                    logger.ChangePass(user);
+                    break;
             }
         }
     }
