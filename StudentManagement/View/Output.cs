@@ -22,15 +22,16 @@ namespace StudentManagement.View
             }
             else
             {
-                Console.WriteLine("Lựa chọn không hợp lệ, vui lòng nhập số.");
+                Console.WriteLine("Invalid input");
                 return 0;
             }
         }
 
-        public void Menu(User user)
+        public int Menu(User user)
         {
             Console.Clear();
             Logger logger = new Logger();
+            Program program = new Program();    
             StudentController studentController = new StudentController();
             Console.WriteLine("------------WELCOME------------");
             Console.WriteLine("1 : Add a student");
@@ -42,20 +43,74 @@ namespace StudentManagement.View
             Console.WriteLine("7 : Filter student with ID subject");
             Console.WriteLine("8 : Show the list of student");
             Console.WriteLine("9 : Change the password");
-            Console.Write("Enter your choice : ");
-            int choice = int.Parse(Console.ReadLine());
-            switch(choice)
+            Console.WriteLine("0 : Exit");
+            int choice = 1;
+            //Console.Write("Enter your choice : ");
+            //choice = int.Parse(Console.ReadLine());
+            do
             {
-                case 1:
-                    studentController.Add();
-                    break;
-                case 2:
-                    studentController.Add();
-                    break;
-                case 9:
-                    logger.ChangePass(user);
-                    break;
-            }
+                try
+                {
+                    Console.Write("Enter your choice : ");
+                    choice = int.Parse(Console.ReadLine());
+                    switch (choice)
+                    {
+                        case 1:
+                            studentController.Add();
+                            break;
+                        case 2:
+                            studentController.Add();
+                            break;
+                        case 9:
+                            logger.ChangePass(user);
+                            break;
+                        case 0:
+                            return -1;
+                    }
+                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            } while (choice != 0);
+            return -1;
+            //try
+            //{
+            //    switch (choice)
+            //    {
+            //        case 1:
+            //            studentController.Add();
+            //            break;
+            //        case 2:
+            //            studentController.Add();
+            //            break;
+            //        case 9:
+            //            logger.ChangePass(user);
+            //            break;
+            //        case 0:
+            //            return -1;
+            //    }
+            //    return 1;
+            //} catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
+            //switch (choice)
+            //{
+            //    case 1:
+            //        studentController.Add();
+            //        break;
+            //    case 2:
+            //        studentController.Add();
+            //        break;
+            //    case 9:
+            //        logger.ChangePass(user);
+            //        break;
+            //    case 0:
+            //        return -1;
+            //}
+            //return 1;
         }
     }
 }

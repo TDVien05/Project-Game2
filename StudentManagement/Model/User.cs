@@ -19,13 +19,15 @@ namespace StudentManagement.Model
             get { return userName; }
             set
             {
-                //TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
-                //string? lowerUserName = textInfo.ToLower(value);
-
-                //string? normalizedUserName = textInfo.ToTitleCase(lowerUserName);
-                //string result = string.Join(" ", normalizedUserName.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
-                userName = value;
-                userName.Trim();
+                if(value.Length < 8)
+                {
+                    userName = string.Empty;
+                }
+                else
+                {
+                    userName = value;
+                    userName.Trim();
+                }
             }
         }
 
@@ -43,7 +45,7 @@ namespace StudentManagement.Model
                     if(value.Length > 8)
                     {
                         Console.WriteLine("Password should contain Capital, letter, number, special character excep space");
-                    }
+                    } 
                     password = string.Empty;
                 }
             }
@@ -77,10 +79,12 @@ namespace StudentManagement.Model
                 }
                 else if (count_Cap == 0 || count_num == 0 || count_spec == 0 || count_alpha == 0)
                 {
+                    Console.WriteLine("Password should contain Capital, letter, number, special character excep space");
                     return 0;
                 }
+                return 1;
             }
-            return 1;
+            return 0;
         }
 
 

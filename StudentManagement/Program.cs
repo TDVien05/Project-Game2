@@ -6,25 +6,35 @@ namespace StudentManagement
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            User user = new User();
-            int check = 1;
-            do
+            static void Main(string[] args)
             {
-                Output output = new Output();
-                int x = output.SignUp_LogIn(user);
-                if (x == 1)
+                User user = new User();
+                int check = 1;
+                do
                 {
-                    Console.Clear();
-                    do
+                    Output output = new Output();
+                    int x = output.SignUp_LogIn(user);
+                    if(user.Password == null && user.UserName != null)
                     {
-                        output.Menu(user);
-                    } while (x == 1);
-                    check = 0;
-                }
-            } while (check == 1);
-        }
+                        Console.WriteLine("Error with your user password");
+                        x = 0;
+                    }
+                    if (x == 1)
+                    {
+                        Console.WriteLine(user.UserName + " " + user.Password);
+                        Console.Clear();
+                        do
+                        {
+                            int y = output.Menu(user);
+                            if(y == -1)
+                            {
+                                break;
+                            }
+                        } while (x == 1);
+                        check = 0;
+                    }
+                } while (check == 1);
+            }
 
     }
 }
