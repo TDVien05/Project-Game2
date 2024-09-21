@@ -15,7 +15,7 @@ namespace StudentManagement.View
             Console.WriteLine("1 : Sign up");
             Console.WriteLine("2 : Log in");
             Console.Write("Enter your choice : ");
-            string? input = Console.ReadLine();    
+            string? input = Console.ReadLine();
             if (int.TryParse(input, out int choice))
             {
                 return logger.Log(choice, user);
@@ -30,8 +30,10 @@ namespace StudentManagement.View
         public int Menu(User user)
         {
             Console.Clear();
+            StudentHandler stu = new StudentHandler();
+            SubjectHandler subList = new SubjectHandler(stu);
             Logger logger = new Logger();
-            Program program = new Program();    
+            Program program = new Program();
             StudentController studentController = new StudentController();
             Console.WriteLine("------------WELCOME------------");
             Console.WriteLine("1 : Add a student");
@@ -57,9 +59,27 @@ namespace StudentManagement.View
                     {
                         case 1:
                             studentController.Add();
-                            break;
                         case 2:
                             studentController.Add();
+                        case 3:
+                        case 4:
+                            subList.DisplaySubjectList();
+                            subList.RegisterSubject();
+                            break;
+                        case 5:
+                            string rollNum = stu.getRollNum();
+                            stu.SearchStudentByRollNumber(rollNum);
+                            break;
+                        case 6:
+                            SubjectHandler.PrintSubjectById();
+                            break;
+                        case 7:
+                            Console.WriteLine("Enter Subject ID to filter and display students: ");
+                            string? subjectId = Console.ReadLine();
+                            stu.FilterBySubjectId(subjectId);
+                            break;
+                        case 8:
+                            stu.PrintStudentList();
                             break;
                         case 9:
                             logger.ChangePass(user);
