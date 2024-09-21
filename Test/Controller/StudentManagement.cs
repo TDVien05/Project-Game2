@@ -1,28 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Test.Model;
 
 namespace Test.Controller
 {
     public class StudentManagement
     {
-        private List<Student> students = new List<Student>(); 
+        private List<Student> students = new List<Student>();
 
         public StudentManagement() { }
 
         // Chức năng thêm sinh viên
         public void Add()
         {
+            bool check = true;
             Student student = new Student();
 
             Console.Write("Enter the student name: ");
-            student.Name = Console.ReadLine();
+            while ( check)
+            {
+                student.Name = Console.ReadLine();
+                if (!IsAlphabetic(student.Name))
+                {
+                    Console.WriteLine("The entered full name is invalid. Please enter it again.");
+                    check = true;
+                }
+                else
+                {
+
+                    // Viết hoa chữ cái đầu của mỗi từ
+                    TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                    student.Name = textInfo.ToTitleCase(student.Name.ToLower());
+                    Console.WriteLine($"{student.Name}");
+                    check = false;
+                }
+            }
 
             Console.Write("Enter the roll number: ");
             student.RollNumber = Console.ReadLine();
-
+            
             Console.Write("Enter the age: ");
-            student.Age = int.Parse(Console.ReadLine());
+            while (check)
+            {
+                if (!int.TryParse(Console.ReadLine(), out int age))
+                {
+                    Console.WriteLine("Invalid age. Please enter a valid number.");
+                    check = true;
+                }
+                else
+                {
+                    student.Age = age;
+                    check = false;  
+                }
+            }
 
             Console.Write("Enter the sex: ");
             student.Sex = Console.ReadLine();
@@ -41,51 +72,72 @@ namespace Test.Controller
             Console.WriteLine("Student added successfully!");
         }
 
+        // Kiểm tra chuỗi có phải là chữ cái
+        static bool IsAlphabetic(string str)
+        {
+            foreach (char c in str)
+            {
+                if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         // Chức năng sửa thông tin sinh viên
-        
-    public void Update(string rollNumber)
+        public void Update(string rollNumber)
         {
             Student student = students.Find(s => s.RollNumber == rollNumber);
             if (student != null)
             {
                 Console.Write("Enter the new name (leave blank to keep current): ");
                 string name = Console.ReadLine();
-                if (name != null && name.Length >0)
+                if (!string.IsNullOrEmpty(name))
                 {
-                    student.Name = name;
+                    if (IsAlphabetic(name))
+                    {
+                        TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                        student.Name = textInfo.ToTitleCase(name.ToLower());
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid name format.");
+                        return;
+                    }
                 }
 
                 Console.Write("Enter the new age (leave blank to keep current): ");
                 string ageInput = Console.ReadLine();
-                if (ageInput != null && ageInput.Length > 0)
+                if (!string.IsNullOrEmpty(ageInput) && int.TryParse(ageInput, out int age))
                 {
-                    student.Age = int.Parse(ageInput);
+                    student.Age = age;
                 }
 
                 Console.Write("Enter the new sex (leave blank to keep current): ");
                 string sex = Console.ReadLine();
-                if (sex != null && sex.Length > 0)
+                if (!string.IsNullOrEmpty(sex))
                 {
                     student.Sex = sex;
                 }
 
                 Console.Write("Enter the new date of birth (leave blank to keep current): ");
                 string dateOfBirth = Console.ReadLine();
-                if (dateOfBirth != null && dateOfBirth.Length > 0)
+                if (!string.IsNullOrEmpty(dateOfBirth))
                 {
                     student.DateOfBirth = dateOfBirth;
                 }
 
                 Console.Write("Enter the new address (leave blank to keep current): ");
                 string address = Console.ReadLine();
-                if (address != null && address.Length > 0)
+                if (!string.IsNullOrEmpty(address))
                 {
                     student.Address = address;
                 }
 
                 Console.Write("Enter the new subjects (comma separated, leave blank to keep current): ");
                 string subjectsInput = Console.ReadLine();
-                if (subjectsInput != null && subjectsInput.Length > 0)
+                if (!string.IsNullOrEmpty(subjectsInput))
                 {
                     student.Subject = new List<string>(subjectsInput.Split(','));
                 }
@@ -126,12 +178,12 @@ namespace Test.Controller
                 foreach (var student in students)
                 {
                     Console.WriteLine("---------------------------------");
-                    Console.WriteLine("Name: "+student.Name);
-                    Console.WriteLine("Roll Number: "+ student.RollNumber);
-                    Console.WriteLine("Age: "+ student.RollNumber);
-                    Console.WriteLine("Sex: "+ student.Sex);
-                    Console.WriteLine("Date of Birth: "+ student.DateOfBirth);
-                    Console.WriteLine("Address: "+ student.Address);
+                    Console.WriteLine("Name: " + student.Name);
+                    Console.WriteLine("Roll Number: " + student.RollNumber);
+                    Console.WriteLine("Age: " + student.Age);
+                    Console.WriteLine("Sex: " + student.Sex);
+                    Console.WriteLine("Date of Birth: " + student.DateOfBirth);
+                    Console.WriteLine("Address: " + student.Address);
                     Console.WriteLine($"Subjects: {string.Join(", ", student.Subject)}");
                     Console.WriteLine("---------------------------------");
                 }
