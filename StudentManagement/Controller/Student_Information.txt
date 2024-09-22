@@ -1,1 +1,0 @@
-{"Name":"Truong Doan Vien","RollNumber":"SE192352","Age":49,"Sex":"Male","DateOfBirth":"19/11/2005","Address":"Dong Nai","Subject":["Math"]}

@@ -85,7 +85,7 @@ namespace StudentManagement.Controller
 
         public void WriteToFile(Dictionary<string, string> listUser)
         {
-            string filePath = @"D:\Final_project\Project-Game2\StudentManagement\Controller\UserPasssword.txt";
+            string filePath = @"D:\StudentManagement\Project-Game2\StudentManagement\Controller\UserPasssword.txt";
             try
             {
                 File.Create(@"D:\Final_project\Project-Game2\StudentManagement\Controller\UserPasssword.txt").Close();
@@ -111,7 +111,7 @@ namespace StudentManagement.Controller
 
         public int ReadFromFile()
         {
-            string filePath = @"D:\Final_project\Project-Game2\StudentManagement\Controller\UserPasssword.txt";
+            string filePath = @"D:\StudentManagement\Project-Game2\StudentManagement\Controller\UserPasssword.txt";
             try
             {
 
@@ -149,14 +149,14 @@ namespace StudentManagement.Controller
         public void ChangePass(User user)
         {
             ReadFromFile();
-            string newPass = string.Empty;
+            string? newPass = string.Empty;
             do
             {
                 Console.Write("Enter new password : ");
                 newPass = Console.ReadLine();
             } while (user.checkPass(newPass) == 0);
 
-            string filePath = @"D:\Final_project\Project-Game2\StudentManagement\Controller\UserPasssword.txt";
+            string filePath = @"D:\StudentManagement\Project-Game2\StudentManagement\Controller\UserPasssword.txt";
             if (File.Exists(filePath))
             {
                 if (newPass != null)

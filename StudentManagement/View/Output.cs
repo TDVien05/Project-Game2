@@ -34,7 +34,7 @@ namespace StudentManagement.View
             SubjectHandler subList = new SubjectHandler(stu);
             Logger logger = new Logger();
             Program program = new Program();
-            StudentController studentController = new StudentController();
+            Manage manage = new Manage();   
             Console.WriteLine("------------WELCOME------------");
             Console.WriteLine("1 : Add a student");
             Console.WriteLine("2 : Edit a student's information");
@@ -58,10 +58,24 @@ namespace StudentManagement.View
                     switch (choice)
                     {
                         case 1:
-                            studentController.Add();
+                            manage.Add();
+                            break;
                         case 2:
-                            studentController.Add();
+                            Console.Write("Enter roll number : ");
+                            string? rollUpdate = Console.ReadLine();
+                            if(rollUpdate != null)
+                            {
+                                manage.Update(rollUpdate);
+                            }
+                            break;
                         case 3:
+                            Console.Write("Enter roll number : ");
+                            string? rollDelete = Console.ReadLine();
+                            if (rollDelete != null)
+                            {
+                                manage.Delete(rollDelete);
+                            }
+                            break;
                         case 4:
                             subList.DisplaySubjectList();
                             subList.RegisterSubject();

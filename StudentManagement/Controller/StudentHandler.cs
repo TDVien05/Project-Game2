@@ -8,7 +8,7 @@ namespace StudentManagement.Controller
 {
     internal class StudentHandler
     {
-        private const string filePath = @"D:\Final_project\Test\Test\Controller\Student_Information.txt";
+        private const string filePath = @"D:\StudentManagement\Project-Game2\StudentManagement\Controller\Student_Information.txt";
         // List to store the students
         private List<Student> students = new List<Student>();
 
