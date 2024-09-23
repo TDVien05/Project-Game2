@@ -109,42 +109,6 @@ namespace StudentManagement.View
                 }
             } while (choice != 0);
             return -1;
-            //try
-            //{
-            //    switch (choice)
-            //    {
-            //        case 1:
-            //            studentController.Add();
-            //            break;
-            //        case 2:
-            //            studentController.Add();
-            //            break;
-            //        case 9:
-            //            logger.ChangePass(user);
-            //            break;
-            //        case 0:
-            //            return -1;
-            //    }
-            //    return 1;
-            //} catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.Message);
-            //}
-            //switch (choice)
-            //{
-            //    case 1:
-            //        studentController.Add();
-            //        break;
-            //    case 2:
-            //        studentController.Add();
-            //        break;
-            //    case 9:
-            //        logger.ChangePass(user);
-            //        break;
-            //    case 0:
-            //        return -1;
-            //}
-            //return 1;
         }
     }
 }

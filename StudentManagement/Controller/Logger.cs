@@ -88,7 +88,7 @@ namespace StudentManagement.Controller
             string filePath = @"D:\StudentManagement\Project-Game2\StudentManagement\Controller\UserPasssword.txt";
             try
             {
-                File.Create(@"D:\Final_project\Project-Game2\StudentManagement\Controller\UserPasssword.txt").Close();
+                File.Create(@"D:\StudentManagement\Project-Game2\StudentManagement\Controller\UserPasssword.txt").Close();
                 // Sử dụng StreamWriter để ghi dữ liệu vào file
                 using (StreamWriter writer = new StreamWriter(filePath, true)) // 'true' để ghi thêm vào file nếu đã tồn tại
                 {
@@ -141,7 +141,7 @@ namespace StudentManagement.Controller
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Đã xảy ra lỗi: " + ex.Message);
+                Console.WriteLine(ex.Message);
             }
             return 0;
         }
@@ -155,20 +155,34 @@ namespace StudentManagement.Controller
                 Console.Write("Enter new password : ");
                 newPass = Console.ReadLine();
             } while (user.checkPass(newPass) == 0);
-
-            string filePath = @"D:\StudentManagement\Project-Game2\StudentManagement\Controller\UserPasssword.txt";
-            if (File.Exists(filePath))
+            if(newPass != null)
             {
-                if (newPass != null)
-                {
-                    listUser[user.UserName] = newPass;
-                }
+                listUser[user.UserName] = newPass;
                 WriteToFile(this.listUser);
             }
-            else
-            {
-                Console.WriteLine("File không tồn tại.");
-            }
+
+
+            //ReadFromFile();
+            //string? newPass = string.Empty;
+            //do
+            //{
+            //    Console.Write("Enter new password : ");
+            //    newPass = Console.ReadLine();
+            //} while (user.checkPass(newPass) == 0);
+
+            //string filePath = @"D:\StudentManagement\Project-Game2\StudentManagement\Controller\UserPasssword.txt";
+            //if (File.Exists(filePath))
+            //{
+            //    if (newPass != null)
+            //    {
+            //        listUser[user.UserName] = newPass;
+            //    }
+            //    WriteToFile(this.listUser);
+            //}
+            //else
+            //{
+            //    Console.WriteLine("File không tồn tại.");
+            //}
         }
 
     }

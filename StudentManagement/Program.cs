@@ -21,18 +21,17 @@ namespace StudentManagement
                     }
                     if (x == 1)
                     {
-                        Console.WriteLine(user.UserName + " " + user.Password);
-                        Console.Clear();
-                        do
+                    Console.Clear();
+                    do
+                    {
+                        int y = output.Menu(user);
+                        if (y == -1)
                         {
-                            int y = output.Menu(user);
-                            if(y == -1)
-                            {
-                                break;
-                            }
-                        } while (x == 1);
-                        check = 0;
-                    }
+                            break;
+                        }
+                    } while (x == 1);
+                    check = 0;
+                }
                 } while (check == 1);
             }
 
