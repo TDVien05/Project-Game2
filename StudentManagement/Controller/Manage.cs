@@ -3,8 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace StudentManagement.Controller
 {
@@ -15,9 +18,33 @@ namespace StudentManagement.Controller
         public Manage() { }
 
         // Chức năng thêm sinh viên
+
+        public void WriteToFile(List<Student> students)
+        {
+            Console.WriteLine("Ghi file co hoat dong");
+            string filePath = @"D:\StudentManagement\Project-Game2\StudentManagement\Controller\Student_Information.txt";
+            try
+            {
+                File.Create(@"D:\StudentManagement\Project-Game2\StudentManagement\Controller\Student_Information.txt").Close();
+                // Sử dụng StreamWriter để ghi dữ liệu vào file
+                using (StreamWriter writer = new StreamWriter(filePath, true)) // 'true' để ghi thêm vào file nếu đã tồn tại
+                {
+                    // Ghi dữ liệu vào file
+                    foreach (var student in students)
+                    {
+                        writer.WriteLine(student.toString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Đã xảy ra lỗi: " + ex.Message);
+            }
+        }
         public void Add()
         {
             bool check = true;
+            int checkAge = 1;
             Student student = new Student();
 
             Console.Write("Enter the student name: ");
@@ -35,7 +62,6 @@ namespace StudentManagement.Controller
                     // Viết hoa chữ cái đầu của mỗi từ
                     TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
                     student.Name = textInfo.ToTitleCase(student.Name.ToLower());
-                    Console.WriteLine($"{student.Name}");
                     check = false;
                 }
             }
@@ -43,20 +69,21 @@ namespace StudentManagement.Controller
             Console.Write("Enter the roll number: ");
             student.RollNumber = Console.ReadLine();
 
-            Console.Write("Enter the age: ");
-            while (check)
+            do
             {
-                if (!int.TryParse(Console.ReadLine(), out int age))
+                Console.Write("Enter the age: ");
+                string? tmp = Console.ReadLine();
+                int age;
+                if (int.TryParse(tmp, out age))
                 {
-                    Console.WriteLine("Invalid age. Please enter a valid number.");
-                    check = true;
+                    student.Age = age;
+                    checkAge = 0;
                 }
                 else
                 {
-                    student.Age = age;
-                    check = false;
+                    Console.WriteLine("Invalid age. Please enter a valid number.");
                 }
-            }
+            } while (checkAge == 1);
 
             Console.Write("Enter the sex: ");
             student.Sex = Console.ReadLine();
@@ -68,10 +95,12 @@ namespace StudentManagement.Controller
             student.Address = Console.ReadLine();
 
             Console.Write("Enter subjects (comma separated): ");
-            string subjectsInput = Console.ReadLine();
+            string? subjectsInput = Console.ReadLine();
             student.Subject = new List<string>(subjectsInput.Split(','));
 
             students.Add(student);
+            WriteToFile(this.students);
+            Console.ReadLine();
             Console.WriteLine("Student added successfully!");
         }
 
