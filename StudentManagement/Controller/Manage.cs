@@ -16,23 +16,20 @@ namespace StudentManagement.Controller
         private List<Student> students = new List<Student>();
 
         public Manage() { }
-
-        // Chức năng thêm sinh viên
-
         public void WriteToFile(List<Student> students)
         {
             Console.WriteLine("Ghi file co hoat dong");
             string filePath = @"D:\StudentManagement\Project-Game2\StudentManagement\Controller\Student_Information.txt";
             try
             {
-                File.Create(@"D:\StudentManagement\Project-Game2\StudentManagement\Controller\Student_Information.txt").Close();
-                // Sử dụng StreamWriter để ghi dữ liệu vào file
-                using (StreamWriter writer = new StreamWriter(filePath, true)) // 'true' để ghi thêm vào file nếu đã tồn tại
+                File.AppendText(@"D:\StudentManagement\Project-Game2\StudentManagement\Controller\Student_Information.txt").Close();
+                using (StreamWriter writer = new StreamWriter(filePath, true)) 
                 {
-                    // Ghi dữ liệu vào file
                     foreach (var student in students)
                     {
-                        writer.WriteLine(student.toString());
+                        string line = $"{student.Name} : {student.RollNumber} : {student.Age} : {student.Sex} : {student.DateOfBirth} : {student.Address} : {string.Join(";", student.Subject)} ";
+                         writer.WriteLine(line); // Ghi từng dòng vào file
+                        //writer.WriteLine(student.toString());
                     }
                 }
             }
@@ -41,8 +38,66 @@ namespace StudentManagement.Controller
                 Console.WriteLine("Đã xảy ra lỗi: " + ex.Message);
             }
         }
+        public int ReadFromFile()
+        {
+            string filePath = @"D:\StudentManagement\Project-Game2\StudentManagement\Controller\Student_Information.txt";
+            try
+            {
+
+                if (File.Exists(filePath))
+                {
+
+                    using (StreamReader reader = new StreamReader(filePath))
+                    {
+                        string? line;
+
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            // string[] lines = line.Split(" - ");
+                            string[] parts = line.Split(" : ");
+                            if (parts.Length == 7)
+                            {
+                                string name = parts[0].Trim();
+                                string rollNumber = parts[1].Trim();
+                                string age = parts[2].Trim();
+                                string sex = parts[3].Trim();
+                                DateTime dateOfBirth = DateTime.Parse(parts[3].Trim());
+
+                                string address = parts[5].Trim();   
+                                List<string> subject = parts[6].Split(',').Select(s => s.Trim()).ToList();
+
+                                // Tạo đối tượng Student và thêm vào danh sách
+                                Student student = new Student
+                                {
+                                    Name = name,
+                                    RollNumber = rollNumber,
+                                    Age = int.Parse(age),
+                                    Sex = sex,
+                                    //DateOfBirth = dateOfBirth,
+                                    Address = address,
+                                    Subject = subject,
+                                };
+
+                                // Thêm sinh viên vào danh sách
+                                students.Add(student);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("File không tồn tại.");
+                }
+                }
+    catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return 0;
+        }
         public void Add()
         {
+            //ReadFromFile();
             bool check = true;
             int checkAge = 1;
             Student student = new Student();
@@ -76,8 +131,15 @@ namespace StudentManagement.Controller
                 int age;
                 if (int.TryParse(tmp, out age))
                 {
-                    student.Age = age;
-                    checkAge = 0;
+                    if (age >= 0) // Kiểm tra tuổi không được âm
+                    {
+                        student.Age = age;
+                        checkAge = 0; // Thoát vòng lặp
+                    }
+                    else
+                    {
+                        Console.WriteLine("Age cannot be negative. Please enter a valid age.");
+                    }
                 }
                 else
                 {
@@ -85,11 +147,64 @@ namespace StudentManagement.Controller
                 }
             } while (checkAge == 1);
 
-            Console.Write("Enter the sex: ");
-            student.Sex = Console.ReadLine();
+            Console.Write("Enter the sex (male/female): ");
+            string? sex;
 
-            Console.Write("Enter the date of birth: ");
-            student.DateOfBirth = Console.ReadLine();
+            while (true)
+            {
+                sex = Console.ReadLine();
+
+                // Kiểm tra nếu sex là "male" hoặc "female"
+                if (sex?.ToLower() == "male" || sex?.ToLower() == "female")
+                {
+                    student.Sex = sex;  // Lưu giới tính vào đối tượng student
+                    break;  // Thoát khỏi vòng lặp khi nhập đúng
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input! Please enter 'male' or 'female'.");
+                    Console.Write("Enter the sex (male/female): ");
+                }
+            }
+            
+            Console.Write("Enter the date of birth (dd/MM/yyyy): ");
+            string? dateOfBirth;
+
+            while (true)
+            {
+                dateOfBirth = Console.ReadLine();
+
+                // Kiểm tra xem chuỗi chỉ chứa các ký tự số và dấu '/'
+                if (!string.IsNullOrEmpty(dateOfBirth) && dateOfBirth.All(c => char.IsDigit(c) || c == '/'))
+                {
+                    try
+                    {
+                        // Cố gắng chuyển đổi chuỗi thành ngày tháng
+                        DateTime parsedDate = DateTime.ParseExact(dateOfBirth, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                        // Kiểm tra xem ngày nhập có lớn hơn ngày hiện tại không
+                        if (parsedDate > DateTime.Now)
+                        {
+                            Console.WriteLine("Date of birth cannot be in the future. Please enter again.");
+                        }
+                        else
+                        {
+                            // Ngày hợp lệ, thoát vòng lặp
+                            student.DateOfBirth = dateOfBirth;
+                            //Console.WriteLine("Valid date of birth.");
+                            break;
+                        }
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Invalid date format. Please enter again (dd/MM/yyyy).");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid date using numbers and '/'.");
+                }
+            }
 
             Console.Write("Enter the address: ");
             student.Address = Console.ReadLine();
@@ -99,7 +214,7 @@ namespace StudentManagement.Controller
             student.Subject = new List<string>(subjectsInput.Split(','));
 
             students.Add(student);
-            WriteToFile(this.students);
+            WriteToFile(students);
             Console.ReadLine();
             Console.WriteLine("Student added successfully!");
         }
@@ -120,6 +235,7 @@ namespace StudentManagement.Controller
         // Chức năng sửa thông tin sinh viên
         public void Update(string rollNumber)
         {
+            //ReadFromFile(string rollNumber);
             Student student = students.Find(s => s.RollNumber == rollNumber);
             if (student != null)
             {
@@ -199,6 +315,7 @@ namespace StudentManagement.Controller
 
         // Chức năng xem danh sách sinh viên
         public void ViewAll()
+            
         {
             if (students.Count == 0)
             {

@@ -60,8 +60,8 @@ namespace StudentManagement.Model
 
         public string DateOfBirth
         {
-            get { return dateOfBirth; }
-            set { dateOfBirth = value; }
+         get { return dateOfBirth; }
+         set { dateOfBirth = value; }
         }
 
         public string Address
@@ -78,7 +78,7 @@ namespace StudentManagement.Model
 
         public string toString()
         {
-            return this.name + " " + this.rollNumber + " " + this.age + " " + this.sex + " " + this.dateOfBirth + " " + this.address + " " + this.subject;
+            return this.name + " - " + this.rollNumber + " - " + this.age + " - " + this.sex + " - " + this.dateOfBirth + " - " + this.address + " - " + this.subject;
         }
 
 
