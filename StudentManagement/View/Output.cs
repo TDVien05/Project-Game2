@@ -82,13 +82,28 @@ namespace StudentManagement.View
                             break;
                         case 5:
                             string rollNum = stu.getRollNum();
-                            stu.SearchStudentByRollNumber(rollNum);
+                            Student? st = stu.SearchStudentByRollNumber(rollNum);
+                            if(st != null)
+                            {
+                                Console.WriteLine(st.Name);
+                                Console.WriteLine(st.RollNumber);
+                                Console.WriteLine(st.Age);
+                                Console.WriteLine(st.Sex);
+                                Console.WriteLine(st.DateOfBirth);
+                                Console.WriteLine(st.Address);
+                                Console.Write("Subjects : ");
+                                foreach(string tmp in st.Subject)
+                                {
+                                    Console.Write(tmp + " ");
+                                }
+                                Console.ReadLine(); 
+                            } else Console.WriteLine("Error");
                             break;
                         case 6:
                             SubjectHandler.PrintSubjectById();
                             break;
                         case 7:
-                            Console.WriteLine("Enter Subject ID to filter and display students: ");
+                            Console.WriteLine("Enter Subject to filter and display students: ");
                             string? subjectId = Console.ReadLine();
                             stu.FilterBySubjectId(subjectId);
                             break;

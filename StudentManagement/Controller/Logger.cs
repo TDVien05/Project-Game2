@@ -17,6 +17,10 @@ namespace StudentManagement.Controller
             if (choice == 1)
             {
                 ReadFromFile();
+                Console.WriteLine("User name should have at least 8 characters");
+                Console.WriteLine("Password should not contain space, " +
+                    "and should have at least 8 characters " +
+                    "contain 9Capital, letter, number, special character)");
                 Console.Write("Enter your userName : ");
                 string? userName = Console.ReadLine();
                 Console.Write("Enter your password : ");

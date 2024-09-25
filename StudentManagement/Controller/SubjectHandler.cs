@@ -10,19 +10,21 @@ namespace StudentManagement.Controller
         // Subject dictionary with subject ID as key and subject name as value
         private static Dictionary<string, string> subjects = new Dictionary<string, string>()
         {
-            { "Ma", "Toan hoc" },
-            { "Li", "Van hoc" },
-            { "Py", "Vat ly" },
-            { "Ce", "Hoa hoc" },
-            { "Hi", "Lich su" },
-            { "Ge", "Dia ly" },
-            { "En", "Ngoai ngu" },
-            { "Cs", "Tin hoc" },
-            { "Bi", "Sinh hoc" }
+            { "Ma", "Math" },
+            { "Li", "Literture" },
+            { "Py", "Physics" },
+            { "Ce", "Chemistry" },
+            { "Hi", "History" },
+            { "Ge", "Geography" },
+            { "En", "English" },
+            { "Cs", "Comouter science" },
+            { "Bi", "Biolophy" }
         };
 
         // Link to the student handler to get the student data
         private StudentHandler studentHandler;
+        private Manage manage = new Manage();
+        private List<Student> students1 = new List<Student>();   
 
         // Constructor to initialize student handler
         public SubjectHandler(StudentHandler studentHandler)
@@ -36,49 +38,57 @@ namespace StudentManagement.Controller
             int choice;
             do
             {
-                Console.WriteLine("Ban co muon dang ky mon hoc?");
-                Console.WriteLine("1. Co");
-                Console.WriteLine("2. Khong");
+                Console.WriteLine("Do you want to sign up course?");
+                Console.WriteLine("1. Yes");
+                Console.WriteLine("2. No");
 
                 if (!int.TryParse(Console.ReadLine(), out choice) || (choice != 1 && choice != 2))
                 {
-                    Console.WriteLine("Lua chon khong hop le. Hay chon lai.");
+                    Console.WriteLine("Invalid value.");
                     continue;
                 }
 
                 if (choice == 1)
                 {
-                    Console.WriteLine("Hay nhap MSSV: ");
+                    students1 = manage.ReadFromFile();
+                    Console.WriteLine("Enter roll number: ");
                     string? rollNum = Console.ReadLine();
                     Student? student = studentHandler.SearchStudentByRollNumber(rollNum);
-
                     if (student == null)
                     {
-                        Console.WriteLine("Khong tim thay sinh vien voi MSSV da nhap.");
+                        Console.WriteLine("Can not find student with roll number : " + rollNum);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
                         return;
                     }
 
-                    Console.WriteLine("Hay nhap ma mon hoc: ");
+                    Console.WriteLine("Enter ID of course : ");
                     string? subjectId = Console.ReadLine();
 
                     // Validate subject ID
                     if (!subjects.ContainsKey(subjectId))
                     {
-                        Console.WriteLine("Ma mon hoc khong hop le.");
+                        Console.WriteLine("Course's ID is inivalid");
                         return;
                     }
 
                     // Check if the subject is already registered for the student
                     if (student.Subject.Contains(subjectId))
                     {
-                        Console.WriteLine($"Mon hoc {subjects[subjectId]} da duoc dang ky.");
+                        Console.WriteLine($"Course {subjects[subjectId]} is signed up");
+                        return;
                     }
-                    else
-                    {
-                        student.Subject.Add(subjectId);
-                        Console.WriteLine($"{subjects[subjectId]} da duoc dang ky thanh cong cho sinh vien {student.Name}.");
-                        WriteSubjectToStudent(rollNum);
-                    }
+                    //else
+                    //{
+                    //    student.Subject.Add(subjectId);
+                    //    Console.WriteLine($"{subjects[subjectId]} is signed up sucessfully for {student.Name}.");
+                    //    //WriteSubjectToStudent(rollNum);
+                    //    manage.WriteToFile(this.students);
+                    //}
+                    student.Subject.Add(subjectId);
+                    Console.WriteLine($"{subjects[subjectId]} is signed up sucessfully for {student.Name}.");
+                    //WriteSubjectToStudent(rollNum);
+                    manage.WriteToFile(students1);
                 }
             } while (choice != 2);
         }
@@ -100,45 +110,51 @@ namespace StudentManagement.Controller
         }
 
         // Write subject list of a student to the file
-        private void WriteSubjectToStudent(string rollNum)
-        {
-            string filePath = @"D:\Final_project\Test\Test\Controller\Student_Information.txt";
-            studentHandler.getRollNum();
-            Student? student = studentHandler.SearchStudentByRollNumber(rollNum);
+        //private void WriteSubjectToStudent(string rollNum)
+        //{
+        //    string filePath = @"D:\StudentManagement\Project-Game2\StudentManagement\Controller\Student_Information.txt";
+        //    string? roll = studentHandler.getRollNum();
+        //    Student? student = studentHandler.SearchStudentByRollNumber(roll);
 
-            if (student == null)
-            {
-                Console.WriteLine("Khong tim thay sinh vien.");
-                return;
-            }
+        //    if (student == null)
+        //    {
+        //        Console.WriteLine("Can not find student");
+        //        return;
+        //    }
 
-            try
-            {
-                using (StreamWriter writer = new StreamWriter(filePath, append: true))
-                {
-                    writer.WriteLine($"Roll Number: {student.RollNumber}");
-                    writer.WriteLine($"Subjects: {string.Join(", ", student.Subject.Select(id => subjects[id]))}");
-                    writer.WriteLine();
-                }
-            }
-            catch (IOException ex)
-            {
-                Console.WriteLine($"Co loi xay ra khi ghi vao file: {ex.Message}");
-            }
-        }
+        //    try
+        //    {
+        //        //using (StreamWriter writer = new StreamWriter(filePath, append: true))
+        //        //{
+        //        //    writer.WriteLine($"Roll Number: {student.RollNumber}");
+        //        //    writer.WriteLine($"Subjects: {string.Join(", ", student.Subject.Select(id => subjects[id]))}");
+        //        //    writer.WriteLine();
+        //        //}
+        //        manage.WriteToFile(students);
+                
+        //    }
+        //    catch (IOException ex)
+        //    {
+        //        Console.WriteLine($"Error : {ex.Message}");
+        //    }
+        //}
 
         public static void PrintSubjectById()
         {
-            Console.WriteLine("Nhap id mon hoc de tim kiem: ");
+            Console.WriteLine("Enter course's ID : ");
             string? subjectId = Console.ReadLine();
             string subjectName = SubjectHandler.GetSubjectNameById(subjectId);
             if (!string.IsNullOrEmpty(subjectName))
             {
                 Console.WriteLine($"Subject Found: {subjectName}");
+                Console.WriteLine("Press enter to continue");
+                Console.ReadLine(); 
             }
             else
             {
                 Console.WriteLine("No subject found with this ID.");
+                Console.WriteLine("Press enter to continue");
+                Console.ReadLine();
             }
         }
 

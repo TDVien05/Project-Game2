@@ -76,10 +76,6 @@ namespace StudentManagement.Model
             set { subject = value; }
         }
 
-        public string toString()
-        {
-            return this.name + " - " + this.rollNumber + " - " + this.age + " - " + this.sex + " - " + this.dateOfBirth + " - " + this.address + " - " + this.subject;
-        }
 
 
 

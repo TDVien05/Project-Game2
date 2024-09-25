@@ -8,27 +8,28 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using StudentManagement.Controller;
 
 namespace StudentManagement.Controller
 {
     internal class Manage
     {
         private List<Student> students = new List<Student>();
+        //private StudentHandler handler = new StudentHandler();
 
         public Manage() { }
         public void WriteToFile(List<Student> students)
         {
-            Console.WriteLine("Ghi file co hoat dong");
             string filePath = @"D:\StudentManagement\Project-Game2\StudentManagement\Controller\Student_Information.txt";
             try
             {
-                File.AppendText(@"D:\StudentManagement\Project-Game2\StudentManagement\Controller\Student_Information.txt").Close();
-                using (StreamWriter writer = new StreamWriter(filePath, true)) 
+                File.Create(@"D:\StudentManagement\Project-Game2\StudentManagement\Controller\Student_Information.txt").Close();
+                using (StreamWriter writer = new StreamWriter(filePath, true))
                 {
                     foreach (var student in students)
                     {
                         string line = $"{student.Name} : {student.RollNumber} : {student.Age} : {student.Sex} : {student.DateOfBirth} : {student.Address} : {string.Join(";", student.Subject)} ";
-                         writer.WriteLine(line); // Ghi từng dòng vào file
+                        writer.WriteLine(line); // Ghi từng dòng vào file
                         //writer.WriteLine(student.toString());
                     }
                 }
@@ -38,7 +39,7 @@ namespace StudentManagement.Controller
                 Console.WriteLine("Đã xảy ra lỗi: " + ex.Message);
             }
         }
-        public int ReadFromFile()
+        public List<Student> ReadFromFile()
         {
             string filePath = @"D:\StudentManagement\Project-Game2\StudentManagement\Controller\Student_Information.txt";
             try
@@ -61,10 +62,9 @@ namespace StudentManagement.Controller
                                 string rollNumber = parts[1].Trim();
                                 string age = parts[2].Trim();
                                 string sex = parts[3].Trim();
-                                DateTime dateOfBirth = DateTime.Parse(parts[3].Trim());
-
+                                string dateOfBirth = parts[3].Trim();
                                 string address = parts[5].Trim();   
-                                List<string> subject = parts[6].Split(',').Select(s => s.Trim()).ToList();
+                                List<string> subject = parts[6].Split(';').Select(s => s.Trim()).ToList();
 
                                 // Tạo đối tượng Student và thêm vào danh sách
                                 Student student = new Student
@@ -93,11 +93,12 @@ namespace StudentManagement.Controller
             {
                 Console.WriteLine(ex.Message);
             }
-            return 0;
+            return students;
         }
         public void Add()
         {
             //ReadFromFile();
+            students = ReadFromFile();
             bool check = true;
             int checkAge = 1;
             Student student = new Student();
@@ -215,6 +216,7 @@ namespace StudentManagement.Controller
 
             students.Add(student);
             WriteToFile(students);
+            Console.WriteLine("Press enter to continue");
             Console.ReadLine();
             Console.WriteLine("Student added successfully!");
         }
@@ -236,6 +238,7 @@ namespace StudentManagement.Controller
         public void Update(string rollNumber)
         {
             //ReadFromFile(string rollNumber);
+            students = ReadFromFile();
             Student student = students.Find(s => s.RollNumber == rollNumber);
             if (student != null)
             {
@@ -291,6 +294,7 @@ namespace StudentManagement.Controller
                 }
 
                 Console.WriteLine("Student information updated successfully!");
+                WriteToFile(students);
             }
             else
             {
@@ -301,15 +305,21 @@ namespace StudentManagement.Controller
         // Chức năng xóa sinh viên
         public void Delete(string rollNumber)
         {
+            students = ReadFromFile();
             Student student = students.Find(s => s.RollNumber == rollNumber);
             if (student != null)
             {
                 students.Remove(student);
                 Console.WriteLine("Student removed successfully!");
+                WriteToFile(students);
+                Console.WriteLine("Press enter to continue");
+                Console.ReadLine();
             }
             else
             {
                 Console.WriteLine("Student not found!");
+                Console.WriteLine("Press enter to continue");
+                Console.ReadLine();
             }
         }
 
